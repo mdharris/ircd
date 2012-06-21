@@ -125,7 +125,7 @@ extern struct Channel *make_channel(const char *);
 extern struct Membership *find_channel_link(struct Client *, struct Channel *);
 
 /* channel visible */
-#define ShowChannel(v,c)        (PubChannel(c) || IsMember((v),(c)))
+#define ShowChannel(v,c)        (PubChannel(c) || IsMember((v),(c)) || IsOper(v))
 
 #define IsMember(who, chan) ((find_channel_link(who, chan)) ? 1 : 0)
 #define AddMemberFlag(x, y) ((x)->flags |=  (y))
