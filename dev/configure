@@ -1534,7 +1534,7 @@ Optional Packages:
   --with-ltdl-lib=DIR     use the libltdl.la installed in DIR
   --with-zlib-path=DIR    Path to libz.so for ziplinks support.
   --with-libpcre-path=DIR Path to libpcre.so for PCRE support.
-  --with-nicklen=<value>  Set nickname length (default 9).
+  --with-nicklen=<value>  Set nickname length (default 16).
   --with-topiclen=<value> Set topic length (default 160).
   --with-syslog-facility=LOG
                           Define the syslog facility to use (default:
@@ -19312,7 +19312,7 @@ _ACEOF
 if test "${with_nicklen+set}" = set; then
   withval=$with_nicklen; nicklen="$withval"
 else
-  nicklen="9"
+  nicklen="16"
 fi
 
 

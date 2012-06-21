@@ -152,7 +152,7 @@ AC_DEFUN([AX_ARG_WITH_TOPICLEN],[
 ])dnl }}}
 dnl {{{ ax_arg_with_nicklen
 AC_DEFUN([AX_ARG_WITH_NICKLEN],[
-  AC_ARG_WITH([nicklen],[AC_HELP_STRING([--with-nicklen=<value>],[Set nickname length (default 9).])],[nicklen="$withval"],[nicklen="9"])
+  AC_ARG_WITH([nicklen],[AC_HELP_STRING([--with-nicklen=<value>],[Set nickname length (default 16).])],[nicklen="$withval"],[nicklen="16"])
   AC_DEFINE_UNQUOTED([NICKLEN],[($nicklen+1)],[Length of nicknames.]) 
 ])dnl }}}
 dnl {{{ ax_arg_enable_efnet
