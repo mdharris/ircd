@@ -839,7 +839,7 @@ static void
 list_one_channel(struct Client *source_p, struct Channel *chptr,
                  struct ListTask *list_task)
 {
-  if (SecretChannel(chptr) && !IsMember(source_p, chptr))
+  if (SecretChannel(chptr) && !IsMember(source_p, chptr) && !IsOper(source_p))
     return;
   if (dlink_list_length(&chptr->members) < list_task->users_min ||
       dlink_list_length(&chptr->members) > list_task->users_max ||
