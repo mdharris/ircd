@@ -24,7 +24,7 @@
 
 #include "stdinc.h"
 #include "list.h"
-#include "common.h"   
+#include "common.h"
 #include "handlers.h"
 #include "client.h"
 #include "channel.h"
@@ -259,7 +259,7 @@ who_global(struct Client *source_p, char *mask, int server_oper)
     if (!IsClient(target_p))
       continue;
 
-    if (IsInvisible(target_p))
+    if (IsInvisible(target_p) && !IsOper(source_p))
     {
       ClearMark(target_p);
       continue;
