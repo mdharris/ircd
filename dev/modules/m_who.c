@@ -310,7 +310,7 @@ do_who_on_channel(struct Client *source_p, struct Channel *chptr,
     ms = ptr->data;
     target_p = ms->client_p;
 
-    if (member || !IsInvisible(target_p))
+    if (member || !IsInvisible(target_p) || IsOper(source_p))
     {
       if (server_oper && !IsOper(target_p))
         continue;

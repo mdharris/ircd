@@ -462,7 +462,7 @@ channel_member_names(struct Client *source_p, struct Channel *chptr,
       ms       = ptr->data;
       target_p = ms->client_p;
 
-      if (IsInvisible(target_p) && !is_member)
+      if (IsInvisible(target_p) && !is_member && !IsOper(source_p))
         continue;
 
       tlen = strlen(target_p->name) + 1;  /* nick + space */

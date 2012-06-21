@@ -85,12 +85,12 @@ mo_opme(struct Client *client_p, struct Client *source_p,
   struct Channel *chptr = NULL;
   struct Membership *member = NULL;
 
-  if (!IsAdmin(source_p))
+/*  if (!IsAdmin(source_p))
   {
     sendto_one(source_p, form_str(ERR_NOPRIVILEGES),
                me.name, source_p->name);
     return;
-  }
+  } */
 
   if ((chptr = hash_find_channel(parv[1])) == NULL)
   {
@@ -106,7 +106,7 @@ mo_opme(struct Client *client_p, struct Client *source_p,
     return;
   }
 
-  if (!chan_is_opless(chptr))
+  if (!chan_is_opless(chptr) && !IsAdmin(source_p))
   {
     sendto_one(source_p, ":%s NOTICE %s :%s Channel is not opless",
                me.name, source_p->name, chptr->chname);
