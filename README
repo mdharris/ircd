@@ -1,5 +1,5 @@
 Red Triangle IRCD (based on ircd-hybrid)
 
-PatchSets = patch sets for ircd-hybrid with specific functionality sets
-stable = stable source tree
-dev = ongoing development; may not build
+This is the IRC server used by RTTC.  It is hybrid compatible but offers some local advancements
+that we believe are of value to server administrators including user privacy enhancements,
+a modified /opme command, AES cipher support for SSL/TLS connections, a default nicklen of 16, etc.  
