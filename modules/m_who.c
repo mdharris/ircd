@@ -24,7 +24,7 @@
 
 #include "stdinc.h"
 #include "list.h"
-#include "common.h"   
+#include "common.h"
 #include "handlers.h"
 #include "client.h"
 #include "channel.h"
@@ -196,7 +196,7 @@ who_common_channel(struct Client *source_p, struct Channel *chptr,
 
     if ((mask == NULL) ||
       match(mask, target_p->name) || match(mask, target_p->username) ||
-      match(mask, target_p->host) || 
+      match(mask, target_p->host) ||
       ((!ConfigServerHide.hide_servers || IsOper(source_p)) &&
        match(mask, target_p->servptr->name)) ||
       match(mask, target_p->info))
@@ -259,7 +259,7 @@ who_global(struct Client *source_p, char *mask, int server_oper)
     if (!IsClient(target_p))
       continue;
 
-    if (IsInvisible(target_p))
+    if (IsInvisible(target_p) && !IsOper(source_p))
     {
       ClearMark(target_p);
       continue;
@@ -310,7 +310,7 @@ do_who_on_channel(struct Client *source_p, struct Channel *chptr,
     ms = ptr->data;
     target_p = ms->client_p;
 
-    if (member || !IsInvisible(target_p))
+    if (member || !IsInvisible(target_p) || IsOper(source_p))
     {
       if (server_oper && !IsOper(target_p))
         continue;
