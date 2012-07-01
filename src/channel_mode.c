@@ -332,8 +332,8 @@ static const struct mode_letter
   { MODE_PRIVATE,    'p' },
   { MODE_SECRET,     's' },
   { MODE_TOPICLIMIT, 't' },
-  { MODE_OPERONLY,   'O' },
-  { MODE_SSLONLY,    'S' },
+  { MODE_OPERONLY,   'e' },
+  { MODE_SSLONLY,    'y' },
   { 0, '\0' }
 };
 
@@ -1387,11 +1387,11 @@ static struct ChannelMode ModeTable[255] =
   {chm_nosuch, NULL},                             /* L */
   {chm_nosuch, NULL},                             /* M */
   {chm_nosuch, NULL},                             /* N */
-  {chm_operonly, (void *) MODE_OPERONLY},         /* O */
+  {chm_nosuch, NULL},                             /* O */
   {chm_nosuch, NULL},                             /* P */
   {chm_nosuch, NULL},                             /* Q */
   {chm_nosuch, NULL},                             /* R */
-  {chm_simple, (void *) MODE_SSLONLY},            /* S */
+  {chm_nosuch, NULL},                             /* S */
   {chm_nosuch, NULL},                             /* T */
   {chm_nosuch, NULL},                             /* U */
   {chm_nosuch, NULL},                             /* V */
@@ -1409,7 +1409,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_ban, NULL},                                /* b */
   {chm_nosuch, NULL},                             /* c */
   {chm_nosuch, NULL},                             /* d */
-  {chm_except, NULL},                             /* e */
+  {chm_operonly, (void *) MODE_OPERONLY},         /* e */
   {chm_nosuch, NULL},                             /* f */
   {chm_nosuch, NULL},                             /* g */
 #ifdef HALFOPS
@@ -1433,7 +1433,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_voice, NULL},                              /* v */
   {chm_nosuch, NULL},                             /* w */
   {chm_nosuch, NULL},                             /* x */
-  {chm_nosuch, NULL},                             /* y */
+  {chm_simple, (void *) MODE_SSLONLY},            /* y */
   {chm_nosuch, NULL},                             /* z */
 };
 

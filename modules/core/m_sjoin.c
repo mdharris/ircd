@@ -167,10 +167,10 @@ ms_sjoin(struct Client *client_p, struct Client *source_p,
       case 'p':
         mode.mode |= MODE_PRIVATE;
         break;
-      case 'O':
+      case 'e':
         mode.mode |= MODE_OPERONLY;
         break;
-      case 'S':
+      case 'y':
         mode.mode |= MODE_SSLONLY;
         break;
       case 'k':
@@ -640,8 +640,8 @@ static const struct mode_letter
   { MODE_MODERATED,  'm' },
   { MODE_INVITEONLY, 'i' },
   { MODE_PRIVATE,    'p' },
-  { MODE_OPERONLY,   'O' },
-  { MODE_SSLONLY,    'S' },
+  { MODE_OPERONLY,   'e' },
+  { MODE_SSLONLY,    'y' },
   { 0, '\0' }
 };
 
