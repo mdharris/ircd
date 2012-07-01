@@ -85,13 +85,6 @@ mo_opme(struct Client *client_p, struct Client *source_p,
   struct Channel *chptr = NULL;
   struct Membership *member = NULL;
 
-/*  if (!IsAdmin(source_p))
-  {
-    sendto_one(source_p, form_str(ERR_NOPRIVILEGES),
-               me.name, source_p->name);
-    return;
-  } */
-
   if ((chptr = hash_find_channel(parv[1])) == NULL)
   {
     sendto_one(source_p, form_str(ERR_NOSUCHCHANNEL),
@@ -152,6 +145,11 @@ mo_opme(struct Client *client_p, struct Client *source_p,
                 me.name, (unsigned long)chptr->channelts,
                 chptr->chname, source_p->name);
 
+  if ((chptr->mode.mode & MODE_AUDITORIUM))
+  {
+    sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN %s",
+                       source_p->name, source_p->username, source_p->host, chptr->chname);
+  }
   sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s MODE %s +o %s",
                        me.name, chptr->chname, source_p->name);
 }

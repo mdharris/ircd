@@ -110,9 +110,24 @@ part_one_client(struct Client *client_p, struct Client *source_p,
     sendto_server(client_p, chptr, NOCAPS, CAP_TS6,
                   ":%s PART %s :%s", source_p->name, chptr->chname,
                   reason);
-    sendto_channel_local(ALL_MEMBERS, NO, chptr, ":%s!%s@%s PART %s :%s",
+    if (!(chptr->mode.mode & MODE_AUDITORIUM))
+    {
+      sendto_channel_local(ALL_MEMBERS, NO, chptr, ":%s!%s@%s PART %s :%s",
                          source_p->name, source_p->username,
                          source_p->host, chptr->chname, reason);
+    }
+    else
+    {
+      sendto_channel_local(CHFL_CHANOP, NO, chptr, ":%s!%s@%s PART %s :%s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname, reason);
+      sendto_channel_local(CHFL_HALFOP, NO, chptr, ":%s!%s@%s PART %s :%s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname, reason);
+      sendto_channel_local(CHFL_VOICE, NO, chptr, ":%s!%s@%s PART %s :%s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname, reason);
+    }
   }
   else
   {
@@ -120,9 +135,24 @@ part_one_client(struct Client *client_p, struct Client *source_p,
                   ":%s PART %s", ID(source_p), chptr->chname);
     sendto_server(client_p, chptr, NOCAPS, CAP_TS6,
                   ":%s PART %s", source_p->name, chptr->chname);
-    sendto_channel_local(ALL_MEMBERS, NO, chptr, ":%s!%s@%s PART %s",
+    if (!(chptr->mode.mode & MODE_AUDITORIUM))
+    {
+      sendto_channel_local(ALL_MEMBERS, NO, chptr, ":%s!%s@%s PART %s",
                          source_p->name, source_p->username,
                          source_p->host, chptr->chname);
+    }
+    else
+    {
+      sendto_channel_local(CHFL_CHANOP, NO, chptr, ":%s!%s@%s PART %s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+      sendto_channel_local(CHFL_HALFOP, NO, chptr, ":%s!%s@%s PART %s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+      sendto_channel_local(CHFL_VOICE, NO, chptr, ":%s!%s@%s PART %s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+    }
   }
 
   remove_user_from_channel(ms);

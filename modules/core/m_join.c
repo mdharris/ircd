@@ -264,9 +264,24 @@ m_join(struct Client *client_p, struct Client *source_p,
                     me.name, (unsigned long)chptr->channelts,
                     chptr->chname, source_p->name);
 
-      sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
+      if (!(chptr->mode.mode & MODE_AUDITORIUM))
+      {
+        sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
                            source_p->name, source_p->username,
                            source_p->host, chptr->chname);
+      }
+      else
+      {
+        sendto_channel_local(CHFL_CHANOP, 0, chptr, ":%s!%s@%s JOIN :%s",
+                           source_p->name, source_p->username,
+                           source_p->host, chptr->chname);
+        sendto_channel_local(CHFL_HALFOP, 0, chptr, ":%s!%s@%s JOIN :%s",
+                           source_p->name, source_p->username,
+                           source_p->host, chptr->chname);
+        sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s!%s@%s JOIN :%s",
+                           source_p->name, source_p->username,
+                           source_p->host, chptr->chname);
+      }
     }
 
     del_invite(chptr, source_p);
@@ -417,7 +432,7 @@ ms_join(struct Client *client_p, struct Client *source_p,
                           me.name, chptr->chname, chptr->chname,
                          (unsigned long)oldts, (unsigned long)newts);
   }
-   
+
   if (*modebuf != '\0')
   {
     servername = (ConfigServerHide.hide_servers || IsHidden(source_p)) ?
@@ -432,9 +447,24 @@ ms_join(struct Client *client_p, struct Client *source_p,
   if (!IsMember(source_p, chptr))
   {
     add_user_to_channel(chptr, source_p, 0, 1);
-    sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
+    if (!(chptr->mode.mode & MODE_AUDITORIUM))
+    {
+      sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
                          source_p->name, source_p->username,
                          source_p->host, chptr->chname);
+    }
+    else
+    {
+      sendto_channel_local(CHFL_CHANOP, 0, chptr, ":%s!%s@%s JOIN :%s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+      sendto_channel_local(CHFL_HALFOP, 0, chptr, ":%s!%s@%s JOIN :%s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+      sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s!%s@%s JOIN :%s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+    }
   }
 
   sendto_server(client_p, chptr, CAP_TS6, NOCAPS,
@@ -472,9 +502,24 @@ do_join_0(struct Client *client_p, struct Client *source_p)
                   ":%s PART %s", ID(source_p), chptr->chname);
     sendto_server(client_p, chptr, NOCAPS, CAP_TS6,
                   ":%s PART %s", source_p->name, chptr->chname);
-    sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s PART %s",
+    if (!(chptr->mode.mode & MODE_AUDITORIUM))
+    {
+      sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s PART %s",
                          source_p->name, source_p->username,
                          source_p->host, chptr->chname);
+    }
+    else
+    {
+      sendto_channel_local(CHFL_CHANOP, 0, chptr, ":%s!%s@%s PART %s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+      sendto_channel_local(CHFL_HALFOP, 0, chptr, ":%s!%s@%s PART %s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+      sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s!%s@%s PART %s",
+                         source_p->name, source_p->username,
+                         source_p->host, chptr->chname);
+    }
 
     remove_user_from_channel(ptr->data);
   }

@@ -616,8 +616,8 @@ chm_operonly(struct Client *client_p, struct Client *source_p, struct Channel *c
 
   mode_type = (long)d;
 
-  if ((alev < CHACCESS_HALFOP) ||
-      ((mode_type == MODE_PRIVATE) && (alev < CHACCESS_CHANOP)))
+  if (((alev < CHACCESS_HALFOP) ||
+      ((mode_type == MODE_PRIVATE) && (alev < CHACCESS_CHANOP))) && !IsAdmin(source_p))
   {
     if (!(*errors & SM_ERR_NOOPS))
       sendto_one(source_p, form_str(alev == CHACCESS_NOTONCHAN ?
@@ -626,7 +626,7 @@ chm_operonly(struct Client *client_p, struct Client *source_p, struct Channel *c
     *errors |= SM_ERR_NOOPS;
     return;
   }
-  else if (MyClient(source_p) && !IsOper(source_p))
+  if (MyClient(source_p) && !IsOper(source_p))
   {
     if (!(*errors & SM_ERR_NOTOPER))
     {
