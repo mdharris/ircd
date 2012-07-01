@@ -449,6 +449,13 @@ channel_member_names(struct Client *source_p, struct Channel *chptr,
   int is_member = IsMember(source_p, chptr);
   int multi_prefix = HasCap(source_p, CAP_MULTI_PREFIX) != 0;
 
+  if ((chptr->mode.mode & MODE_AUDITORIUM) && !is_member)
+  {
+    sendto_one(source_p, form_str(RPL_ENDOFNAMES),
+               me.name, source_p->name, chptr->chname);
+    return;
+  }
+
   if (PubChannel(chptr) || is_member)
   {
     t = lbuf + ircsprintf(lbuf, form_str(RPL_NAMREPLY),
@@ -463,7 +470,13 @@ channel_member_names(struct Client *source_p, struct Channel *chptr,
       target_p = ms->client_p;
 
       if (IsInvisible(target_p) && !is_member && !IsOper(source_p))
+      {
         continue;
+      }
+      if ((chptr->mode.mode & MODE_AUDITORIUM) && !(ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)) && !())
+      {
+	continue;
+      }
 
       tlen = strlen(target_p->name) + 1;  /* nick + space */
 

@@ -25,9 +25,9 @@ static struct NumericInfo replies[] = {
 /* 002 */  {"RPL_YOURHOST", ":%s 002 %s :Your host is %s, running version %s", NULL},
 /* 003 */  {"RPL_CREATED", ":%s 003 %s :This server was created %s", NULL},
 #ifdef HALFOPS
-/* 004 */  {"RPL_MYINFO", ":%s 004 %s %s %s %s biklmnopstveIhOS bkloveIh", NULL},
+/* 004 */  {"RPL_MYINFO", ":%s 004 %s %s %s %s abiklmnopstxyveIhr bklorveIh", NULL},
 #else
-/* 004 */  {"RPL_MYINFO", ":%s 004 %s %s %s %s biklmnopstveIOS bkloveI", NULL},
+/* 004 */  {"RPL_MYINFO", ":%s 004 %s %s %s %s abiklmnopstxyveIr bklorveI", NULL},
 #endif
 /* 005 */  {"RPL_ISUPPORT", ":%s 005 %s %s :are supported by this server", NULL},
 /* 006 */  {NULL, NULL, NULL},

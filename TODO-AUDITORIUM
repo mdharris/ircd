@@ -1,0 +1,13 @@
+The Auditorium mode mod:
+
+Done:
+ - Dealing with JOIN
+ - Dealing with SJOIN
+ - Dealing with PART
+ - Disallow non-v/h/o users from sending privmsgs or notices to +a channels
+ - Dealing with OPME
+ - Dealing with opping, deopping, halfopping, dehalfopping, voicing, and devoicing on +a channels
+   - Non-o/v/h's will need to see new o/h/v users join, and part when o/v/h is removed  
+   - New o/v/h users will need to get a JOIN burst as well
+   - Finally, anyone losing o/v/h will need to be seen PART'ing by other non-o/v/h users
+ - Make sure to send only the right NAMES and such when a user JOIN's an auditorium

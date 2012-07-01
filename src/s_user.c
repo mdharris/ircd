@@ -1313,11 +1313,11 @@ init_isupport(void)
   add_isupport("MODES", NULL, MAXMODEPARAMS);
   add_isupport("NICKLEN", NULL, NICKLEN-1);
 #ifdef HALFOPS
-  add_isupport("PREFIX", "(ohv)@%+", -1);
-  add_isupport("STATUSMSG", "@%+", -1);
+  add_isupport("PREFIX", "(rohv)!@%+", -1);
+  add_isupport("STATUSMSG", "!@%+", -1);
 #else
-  add_isupport("PREFIX", "(ov)@+", -1);
-  add_isupport("STATUSMSG", "@+", -1);
+  add_isupport("PREFIX", "(rov)@+", -1);
+  add_isupport("STATUSMSG", "!@+", -1);
 #endif
   add_isupport("TOPICLEN", NULL, TOPICLEN);
 }

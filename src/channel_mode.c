@@ -1058,7 +1058,44 @@ chm_op(struct Client *client_p, struct Client *source_p,
     DelMemberFlag(member, CHFL_DEOPPED | CHFL_HALFOP);
   }
   else
+  {
     DelMemberFlag(member, CHFL_CHANOP);
+  }
+
+  if (chptr->mode.mode & MODE_AUDITORIUM)
+  {
+    struct Client *person_p = NULL;
+    struct Membership *ms = NULL;
+    dlink_node *dlnptr = NULL;
+
+    DLINK_FOREACH(dlnptr, chptr->members.head)
+    {
+      ms       = dlnptr->data;
+      person_p = ms->client_p;
+
+      if (ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))
+      {
+	/* deopped users get to keep knowledge of o/v/h users, while opped users already have said knowledge. */
+	continue;
+      }
+
+      if (dir == MODE_ADD)
+      {
+        /* send JOIN burst to the newly-opped user */
+	sendto_one(targ_p, ":%s!%s@%s JOIN %s", person_p->name, person_p->username, person_p->host, chname);
+	/* send JOIN to other users */
+	sendto_one(person_p, ":%s!%s@%s JOIN %s", targ_p->name, targ_p->username, targ_p->host, chname);
+      }
+      else
+      {
+        /* send PART burst to the newly-deopped user */
+	sendto_one(targ_p, ":%s!%s@%s PART %s", person_p->name, person_p->username, person_p->host, chname);
+	/* send PART to other users */
+	sendto_one(person_p, ":%s!%s@%s PART %s :Deopped", targ_p->name, targ_p->username, targ_p->host, chname);
+      }
+    }
+  }
+
 }
 
 #ifdef HALFOPS
@@ -1149,6 +1186,41 @@ chm_hop(struct Client *client_p, struct Client *source_p,
   }
   else
     DelMemberFlag(member, CHFL_HALFOP);
+
+  if (chptr->mode.mode & MODE_AUDITORIUM)
+  {
+    struct Client *person_p = NULL;
+    struct Membership *ms = NULL;
+    dlink_node *dlnptr = NULL;
+
+    DLINK_FOREACH(dlnptr, chptr->members.head)
+    {
+      ms       = dlnptr->data;
+      person_p = ms->client_p;
+
+      if (ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))
+      {
+	/* deopped users get to keep knowledge of o/v/h users, while opped users already have said knowledge. */
+	continue;
+      }
+
+      if (dir == MODE_ADD)
+      {
+        /* send JOIN burst to the newly-opped user */
+	sendto_one(targ_p, ":%s!%s@%s JOIN %s", person_p->name, person_p->username, person_p->host, chname);
+	/* send JOIN to other users */
+	sendto_one(person_p, ":%s!%s@%s JOIN %s", targ_p->name, targ_p->username, targ_p->host, chname);
+      }
+      else
+      {
+        /* send PART burst to the newly-deopped user */
+	sendto_one(targ_p, ":%s!%s@%s PART %s", person_p->name, person_p->username, person_p->host, chname);
+	/* send PART to other users */
+	sendto_one(person_p, ":%s!%s@%s PART %s :Dehalfopped", targ_p->name, targ_p->username, targ_p->host, chname);
+      }
+    }
+  }
+
 }
 #endif
 
@@ -1213,6 +1285,40 @@ chm_voice(struct Client *client_p, struct Client *source_p,
     AddMemberFlag(member, CHFL_VOICE);
   else
     DelMemberFlag(member, CHFL_VOICE);
+
+  if (chptr->mode.mode & MODE_AUDITORIUM)
+  {
+    struct Client *person_p = NULL;
+    struct Membership *ms = NULL;
+    dlink_node *dlnptr = NULL;
+
+    DLINK_FOREACH(dlnptr, chptr->members.head)
+    {
+      ms       = dlnptr->data;
+      person_p = ms->client_p;
+
+      if (ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))
+      {
+	/* deopped users get to keep knowledge of o/v/h users, while opped users already have said knowledge. */
+	continue;
+      }
+
+      if (dir == MODE_ADD)
+      {
+        /* send JOIN burst to the newly-opped user */
+	sendto_one(targ_p, ":%s!%s@%s JOIN %s", person_p->name, person_p->username, person_p->host, chname);
+	/* send JOIN to other users */
+	sendto_one(person_p, ":%s!%s@%s JOIN %s", targ_p->name, targ_p->username, targ_p->host, chname);
+      }
+      else
+      {
+        /* send PART burst to the newly-deopped user */
+	sendto_one(targ_p, ":%s!%s@%s PART %s", person_p->name, person_p->username, person_p->host, chname);
+	/* send PART to other users */
+	sendto_one(person_p, ":%s!%s@%s PART %s :Devoiced", targ_p->name, targ_p->username, targ_p->host, chname);
+      }
+    }
+  }
 }
 
 static void
@@ -1640,7 +1746,7 @@ send_mode_changes(struct Client *client_p, struct Client *source_p,
     else
       arglen = 0;
 
-    if ((mc == MAXMODEPARAMS)  || 
+    if ((mc == MAXMODEPARAMS)  ||
         ((arglen + mbl + pbl + 2) > IRCD_BUFSIZE) ||
 	((arglen + pbl + BAN_FUDGE) >= MODEBUFLEN))
     {
