@@ -107,6 +107,8 @@ const char *infotext[] =
   "Xride, Søren Straarup <xride@x12.dk>",
   "zb^3, Alfred Perlstein <alfred@freebsd.org>",
   "",
-  "ircm based on ircd-hybrid with modifications by mdh",
+  "RTTC ircd based on ircd-hybrid with modifications by mdh",
+  "Sponsored by the Red Triangle Technology Collective",
+  "http://www.redtriangletc.org/",
   "", 0
 };

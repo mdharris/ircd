@@ -23,5 +23,5 @@
  */
 
 #ifndef PATCHLEVEL
-# define PATCHLEVEL   "ircm-0.4"
+# define PATCHLEVEL   "rttc-0.4"
 #endif
