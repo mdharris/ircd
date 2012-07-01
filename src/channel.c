@@ -442,6 +442,7 @@ channel_member_names(struct Client *source_p, struct Channel *chptr,
 {
   struct Client *target_p = NULL;
   struct Membership *ms = NULL;
+  struct Membership *source_ms = NULL;
   dlink_node *ptr = NULL;
   char lbuf[IRCD_BUFSIZE + 1];
   char *t = NULL, *start = NULL;
@@ -464,6 +465,8 @@ channel_member_names(struct Client *source_p, struct Channel *chptr,
                           chptr->chname);
     start = t;
 
+    if (is_member) { source_ms = find_channel_link(source_p, chptr); }
+
     DLINK_FOREACH(ptr, chptr->members.head)
     {
       ms       = ptr->data;
@@ -473,9 +476,12 @@ channel_member_names(struct Client *source_p, struct Channel *chptr,
       {
         continue;
       }
-      if ((chptr->mode.mode & MODE_AUDITORIUM) && !(ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)) && !())
+      if (is_member)
       {
-	continue;
+	if ((chptr->mode.mode & MODE_AUDITORIUM) && !(ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)) && !(source_ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)))
+	{
+	  continue;
+	}
       }
 
       tlen = strlen(target_p->name) + 1;  /* nick + space */

@@ -107,11 +107,6 @@ const char *infotext[] =
   "Xride, Søren Straarup <xride@x12.dk>",
   "zb^3, Alfred Perlstein <alfred@freebsd.org>",
   "",
-  "Others are welcome. Always. And if we left anyone off the above list,",
-  "be sure to let us know that too. Many others have contributed to",
-  "previous versions of this ircd and its ancestors, too many to list",
-  "here.",
-  "",
-  "Send bug fixes/complaints/rotten tomatoes to bugs@ircd-hybrid.org.",
+  "ircm based on ircd-hybrid with modifications by mdh",
   "", 0
 };

@@ -10,4 +10,6 @@ Done:
    - Non-o/v/h's will need to see new o/h/v users join, and part when o/v/h is removed  
    - New o/v/h users will need to get a JOIN burst as well
    - Finally, anyone losing o/v/h will need to be seen PART'ing by other non-o/v/h users
+
+Not done:
  - Make sure to send only the right NAMES and such when a user JOIN's an auditorium

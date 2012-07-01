@@ -839,6 +839,8 @@ static void
 list_one_channel(struct Client *source_p, struct Channel *chptr,
                  struct ListTask *list_task)
 {
+  char loc_topic[TOPICLEN + 1];
+
   if (SecretChannel(chptr) && !IsMember(source_p, chptr) && !IsOper(source_p))
     return;
   if (dlink_list_length(&chptr->members) < list_task->users_min ||
@@ -853,9 +855,32 @@ list_one_channel(struct Client *source_p, struct Channel *chptr,
 
   if (!list_allow_channel(chptr->chname, list_task))
     return;
-  sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name,
-             chptr->chname, dlink_list_length(&chptr->members),
-             chptr->topic == NULL ? "" : chptr->topic);
+
+  memset(loc_topic, 0, (TOPICLEN + 1));
+  if (chptr->mode.mode & MODE_AUDITORIUM)
+  {
+    if (chptr->topic)
+    {
+      snprintf(loc_topic, TOPICLEN, "[AUDITORIUM] %s", chptr->topic);
+    }
+    else
+    {
+      snprintf(loc_topic, TOPICLEN, "[AUDITORIUM]");
+    }
+  }
+  else
+  {
+    if (chptr->topic)
+    {
+      snprintf(loc_topic, TOPICLEN, "%s", chptr->topic);
+    }
+    else
+    {
+      snprintf(loc_topic, TOPICLEN, "");
+    }
+  }
+
+  sendto_one(source_p, form_str(RPL_LIST), me.name, source_p->name, chptr->chname, dlink_list_length(&chptr->members), loc_topic);
 }
 
 /* safe_list_channels()
