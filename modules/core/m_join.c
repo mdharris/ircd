@@ -492,13 +492,14 @@ static const struct mode_letter
   unsigned int mode;
   unsigned char letter;
 } flags[] = {
+  { MODE_AUDITORIUM, 'a' },
+  { MODE_OPERONLY,   'x' },
   { MODE_NOPRIVMSGS, 'n' },
   { MODE_TOPICLIMIT, 't' },
   { MODE_SECRET,     's' },
   { MODE_MODERATED,  'm' },
   { MODE_INVITEONLY, 'i' },
   { MODE_PRIVATE,    'p' },
-  { MODE_OPERONLY,   'e' },
   { MODE_SSLONLY,    'y' },
   { 0, '\0' }
 };

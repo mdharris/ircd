@@ -149,6 +149,9 @@ ms_sjoin(struct Client *client_p, struct Client *source_p,
   {
     switch (*s)
     {
+      case 'a':
+        mode.mode |= MODE_AUDITORIUM;
+        break;
       case 't':
         mode.mode |= MODE_TOPICLIMIT;
         break;
@@ -167,7 +170,7 @@ ms_sjoin(struct Client *client_p, struct Client *source_p,
       case 'p':
         mode.mode |= MODE_PRIVATE;
         break;
-      case 'e':
+      case 'x':
         mode.mode |= MODE_OPERONLY;
         break;
       case 'y':
@@ -634,13 +637,14 @@ static const struct mode_letter
   unsigned int mode;
   unsigned char letter;
 } flags[] = {
+  { MODE_AUDITORIUM, 'a' },
+  { MODE_OPERONLY,   'x' },
   { MODE_NOPRIVMSGS, 'n' },
   { MODE_TOPICLIMIT, 't' },
   { MODE_SECRET,     's' },
   { MODE_MODERATED,  'm' },
   { MODE_INVITEONLY, 'i' },
   { MODE_PRIVATE,    'p' },
-  { MODE_OPERONLY,   'e' },
   { MODE_SSLONLY,    'y' },
   { 0, '\0' }
 };

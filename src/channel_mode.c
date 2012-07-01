@@ -326,13 +326,14 @@ static const struct mode_letter
   const unsigned int mode;
   const unsigned char letter;
 } flags[] = {
+  { MODE_AUDITORIUM, 'a' },
   { MODE_INVITEONLY, 'i' },
   { MODE_MODERATED,  'm' },
   { MODE_NOPRIVMSGS, 'n' },
   { MODE_PRIVATE,    'p' },
   { MODE_SECRET,     's' },
   { MODE_TOPICLIMIT, 't' },
-  { MODE_OPERONLY,   'e' },
+  { MODE_OPERONLY,   'x' },
   { MODE_SSLONLY,    'y' },
   { 0, '\0' }
 };
@@ -561,8 +562,7 @@ chm_simple(struct Client *client_p, struct Client *source_p, struct Channel *chp
 
   mode_type = (long)d;
 
-  if ((alev < CHACCESS_HALFOP) ||
-      ((mode_type == MODE_PRIVATE) && (alev < CHACCESS_CHANOP)))
+  if (alev < CHACCESS_CHANOP)
   {
     if (!(*errors & SM_ERR_NOOPS))
       sendto_one(source_p, form_str(alev == CHACCESS_NOTONCHAN ?
@@ -578,16 +578,9 @@ chm_simple(struct Client *client_p, struct Client *source_p, struct Channel *chp
 
   simple_modes_mask |= mode_type;
 
-  /* setting + */
-  /* Apparently, (though no one has ever told the hybrid group directly) 
-   * admins don't like redundant mode checking. ok. It would have been nice 
-   * if you had have told us directly. I've left the original code snippets 
-   * in place. 
-   * 
-   * -Dianora 
-   */ 
-  if ((dir == MODE_ADD)) /* && !(chptr->mode.mode & mode_type)) */
+  if ((dir == MODE_ADD) && !(chptr->mode.mode & mode_type))
   {
+    /* setting + */
     chptr->mode.mode |= mode_type;
 
     mode_changes[mode_count].letter = c;
@@ -598,7 +591,7 @@ chm_simple(struct Client *client_p, struct Client *source_p, struct Channel *chp
     mode_changes[mode_count].mems = ALL_MEMBERS;
     mode_changes[mode_count++].arg = NULL;
   }
-  else if ((dir == MODE_DEL)) /* && (chptr->mode.mode & mode_type)) */
+  else if ((dir == MODE_DEL) && (chptr->mode.mode & mode_type))
   {
     /* setting - */
 
@@ -655,7 +648,7 @@ chm_operonly(struct Client *client_p, struct Client *source_p, struct Channel *c
 
   simple_modes_mask |= mode_type;
 
-  if ((dir == MODE_ADD)) /* && !(chptr->mode.mode & mode_type)) */
+  if ((dir == MODE_ADD) && !(chptr->mode.mode & mode_type))
   {
     chptr->mode.mode |= mode_type;
 
@@ -668,10 +661,8 @@ chm_operonly(struct Client *client_p, struct Client *source_p, struct Channel *c
     mode_changes[mode_count].mems = ALL_MEMBERS;
     mode_changes[mode_count++].arg = NULL;
   }
-  else if ((dir == MODE_DEL)) /* && (chptr->mode.mode & mode_type)) */
+  else if ((dir == MODE_DEL) && (chptr->mode.mode & mode_type))
   {
-    /* setting - */
-
     chptr->mode.mode &= ~mode_type;
 
     mode_changes[mode_count].letter = c;
@@ -1405,11 +1396,11 @@ static struct ChannelMode ModeTable[255] =
   {chm_nosuch, NULL},
   {chm_nosuch, NULL},
   {chm_nosuch, NULL},
-  {chm_nosuch, NULL},				  /* a */
+  {chm_simple, (void *) MODE_AUDITORIUM},         /* a */
   {chm_ban, NULL},                                /* b */
   {chm_nosuch, NULL},                             /* c */
   {chm_nosuch, NULL},                             /* d */
-  {chm_operonly, (void *) MODE_OPERONLY},         /* e */
+  {chm_except, NULL},                             /* e */
   {chm_nosuch, NULL},                             /* f */
   {chm_nosuch, NULL},                             /* g */
 #ifdef HALFOPS
@@ -1432,7 +1423,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_nosuch, NULL},                             /* u */
   {chm_voice, NULL},                              /* v */
   {chm_nosuch, NULL},                             /* w */
-  {chm_nosuch, NULL},                             /* x */
+  {chm_operonly, (void *) MODE_OPERONLY},         /* x */
   {chm_simple, (void *) MODE_SSLONLY},            /* y */
   {chm_nosuch, NULL},                             /* z */
 };
