@@ -167,11 +167,6 @@ do_admin(struct Client *source_p)
   const char *me_name;
   const char *nick;
 
-  sendto_realops_flags(UMODE_SPY, L_ALL,
-                       "ADMIN requested by %s (%s@%s) [%s]",
-                       source_p->name, source_p->username,
-                       source_p->host, source_p->servptr->name);
-
   me_name = ID_or_name(&me, source_p->from);
   nick = ID_or_name(source_p, source_p->from);
 

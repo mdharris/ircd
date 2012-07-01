@@ -198,19 +198,10 @@ do_stats(struct Client *source_p, int parc, char *parv[])
       /* Blah, stats L needs the parameters, none of the others do.. */
       if (statchar == 'L' || statchar == 'l')
       {
-        sendto_realops_flags(UMODE_SPY, L_ALL,
-                             "STATS %c requested by %s (%s@%s) [%s] on %s",
-                             statchar, source_p->name, source_p->username,
-                             source_p->host, source_p->servptr->name,
-                             parc > 2 ? parv[2] : "<no recipient>");
         tab->handler(source_p, parc, parv);
       }
       else
       {
-        sendto_realops_flags(UMODE_SPY, L_ALL,
-                             "STATS %c requested by %s (%s@%s) [%s]",
-                             statchar, source_p->name, source_p->username,
-                             source_p->host, source_p->servptr->name);
         tab->handler(source_p);
       }
 

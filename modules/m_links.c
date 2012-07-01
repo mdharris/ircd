@@ -63,12 +63,6 @@ _moddeinit(void)
 static void
 do_links(struct Client *source_p, int parc, char *parv[])
 {
-  sendto_realops_flags(UMODE_SPY, L_ALL,
-                       "LINKS requested by %s (%s@%s) [%s]",
-                       source_p->name,
-                       source_p->username, source_p->host,
-                       source_p->servptr->name);
-
   if (IsOper(source_p) || !ConfigServerHide.flatten_links)
   {
     const char *mask = (parc > 2 ? parv[2] : parv[1]);

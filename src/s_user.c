@@ -141,7 +141,7 @@ unsigned int user_modes[256] =
   0,                  /* v */
   UMODE_WALLOP,       /* w */
   UMODE_EXTERNAL,     /* x */
-  UMODE_SPY,          /* y */
+  0,                  /* y */
   UMODE_OPERWALL,     /* z      0x7A */
   0,0,0,0,0,          /* 0x7B - 0x7F */
 

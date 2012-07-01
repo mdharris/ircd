@@ -79,11 +79,6 @@ do_etrace(struct Client *source_p, int parc, char *parv[])
   int full_etrace = 0;
   dlink_node *ptr;
 
-  sendto_realops_flags(UMODE_SPY, L_ALL,
-                       "ETRACE requested by %s (%s@%s) [%s]",
-                       source_p->name, source_p->username,
-                       source_p->host, source_p->servptr->name);
-
   if (parc > 1)
   {
     if (irccmp(parv[1], "-full") == 0)

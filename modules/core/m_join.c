@@ -168,9 +168,6 @@ m_join(struct Client *client_p, struct Client *source_p,
     {
       sendto_one(source_p, form_str(ERR_BADCHANNAME),
                  me.name, source_p->name, chan);
-      sendto_realops_flags(UMODE_SPY, L_ALL,
-                           "User %s (%s@%s) is attempting to join locally juped channel %s",
-                           source_p->name, source_p->username, source_p->host, chan);
       continue;
     }
 
@@ -240,14 +237,13 @@ m_join(struct Client *client_p, struct Client *source_p,
     if (flags & CHFL_CHANOP)
     {
       chptr->channelts = CurrentTime;
-      chptr->mode.mode |= MODE_NOPRIVMSGS;
 
       sendto_server(client_p, chptr, CAP_TS6, NOCAPS,
-                    ":%s SJOIN %lu %s +n :@%s",
+                    ":%s SJOIN %lu %s + :@%s",
                     me.id, (unsigned long)chptr->channelts,
                     chptr->chname, source_p->id);
       sendto_server(client_p, chptr, NOCAPS, CAP_TS6,
-                    ":%s SJOIN %lu %s +n :@%s",
+                    ":%s SJOIN %lu %s + :@%s",
                     me.name, (unsigned long)chptr->channelts,
                     chptr->chname, source_p->name);
       /*
@@ -256,8 +252,6 @@ m_join(struct Client *client_p, struct Client *source_p,
       sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
                            source_p->name, source_p->username,
                            source_p->host, chptr->chname);
-      sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s MODE %s +n",
-                           me.name, chptr->chname);
     }
     else
     {

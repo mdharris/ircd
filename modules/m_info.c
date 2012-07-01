@@ -632,11 +632,6 @@ send_info_text(struct Client *source_p)
   const char **text = infotext;
   char *source, *target;
 
-  sendto_realops_flags(UMODE_SPY, L_ALL,
-                       "INFO requested by %s (%s@%s) [%s]",
-                       source_p->name, source_p->username,
-                       source_p->host, source_p->servptr->name);
-
   if (!MyClient(source_p) && IsCapable(source_p->from, CAP_TS6) &&
       HasID(source_p))
     source = me.id, target = source_p->id;
