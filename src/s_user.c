@@ -115,7 +115,7 @@ unsigned int user_modes[256] =
   0,                  /* X */
   0,                  /* Y */
   0,                  /* Z 0x5A */
-  0, 0, 0, 0, 0,      /* 0x5F   */ 
+  0, 0, 0, 0, 0,      /* 0x5F   */
   0,                  /* 0x60   */
   UMODE_ADMIN,        /* a */
   UMODE_BOTS,         /* b */
@@ -138,7 +138,7 @@ unsigned int user_modes[256] =
   UMODE_SERVNOTICE,   /* s */
   0,                  /* t */
   UMODE_UNAUTH,       /* u */
-  0,                  /* v */
+  UMODE_REGSVC,       /* v */
   UMODE_WALLOP,       /* w */
   UMODE_EXTERNAL,     /* x */
   0,                  /* y */

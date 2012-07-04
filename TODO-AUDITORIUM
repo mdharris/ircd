@@ -14,3 +14,5 @@ Done:
 
 Not done:
  - Figure out how to address servers that don't understand +a (maybe a patch to make them set +m ?)
+ - Update KICK to send to the right people
+ - Update WHO for channel queries to send the proper data same as NAMES

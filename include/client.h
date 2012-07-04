@@ -368,6 +368,7 @@ struct LocalUser
 #define UMODE_LOCOPS       0x00010000 /* show locops */
 #define UMODE_DEAF         0x00020000 /* don't receive channel messages */
 #define UMODE_CCONN_FULL   0x00040000 /* add unused fields to connection monitoring */
+#define UMODE_REGSVC       0x00080000 /* service bot */
 
 /* user information flags, only settable by remote mode or local oper */
 #define UMODE_OPER         0x40000000 /* Operator */
