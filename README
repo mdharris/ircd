@@ -1,6 +1,6 @@
-Red Triangle IRCD (based on ircd-hybrid)
+IRCASC IRCD (based on ircd-hybrid)
 
-This is the IRC server used by RTTC.  It is hybrid compatible but offers some local advancements
+This is the IRC server used by IRCASC.  It is hybrid compatible but offers some local advancements
 that we believe are of value to server administrators including user privacy enhancements,
 a modified /opme command, AES cipher support for SSL/TLS connections, a default nicklen of 16, etc.  
 
