@@ -425,8 +425,6 @@ channel_pub_or_secret(const struct Channel *chptr)
 {
   if (SecretChannel(chptr))
     return "@";
-  if (PrivateChannel(chptr))
-    return "*";
   return "=";
 }
 

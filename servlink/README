@@ -1,5 +1,5 @@
 Servlink protocol documentation.
-$Id: README 33 2005-10-02 20:50:00Z knight $
+$Id: README 34 2014-06-14 01:47:20 mdharris $
 --------------
 
 After negotiating an incoming/outgoing server connection, the ircd will
@@ -52,6 +52,8 @@ Commands:
 	006 -      RC5 ( 8 rounds)
 	007 -      RC5 (12 rounds)
 	008 -      RC5 (16 rounds)
+        009 -      AES 128
+        010 -      AES 256
 
 	cannot be called whilst decryption is active.
 
@@ -73,6 +75,8 @@ Commands:
         006 -      RC5 ( 8 rounds)
         007 -      RC5 (12 rounds)
         008 -      RC5 (16 rounds)
+        009 -      AES 128
+        010 -      AES 256
 
 	cannot be called whilst encryption is active.
 
