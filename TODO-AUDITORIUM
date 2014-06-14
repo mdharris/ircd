@@ -11,8 +11,8 @@ Done:
    - New o/v/h users will need to get a JOIN burst as well
    - Finally, anyone losing o/v/h will need to be seen PART'ing by other non-o/v/h users
  - Make sure to send only the right NAMES and such when a user JOIN's an auditorium
+ - Update WHO for channel queries to send the proper data same as NAMES
 
 Not done:
- - Figure out how to address servers that don't understand +a (maybe a patch to make them set +m ?)
  - Update KICK to send to the right people
- - Update WHO for channel queries to send the proper data same as NAMES
+ - Figure out how to address servers that don't understand +a (maybe a patch to make them set +m ?)

@@ -69,6 +69,8 @@ static void do_who(struct Client *, struct Client *,
                    const char *, const char *);
 static void do_who_on_channel(struct Client *, struct Channel *,
                               const char *, int, int);
+static void do_who_on_auditorium_channel(struct Client *, struct Channel *,
+                              const char *, int);
 
 /*
 ** m_who
@@ -118,10 +120,22 @@ m_who(struct Client *client_p, struct Client *source_p,
     /* List all users on a given channel */
     if ((chptr = hash_find_channel(mask)) != NULL)
     {
-      if (IsMember(source_p, chptr))
+      if ((chptr->mode.mode & MODE_AUDITORIUM) && IsMember(source_p, chptr))
+      {
+        do_who_on_auditorium_channel(source_p, chptr, chptr->chname, YES);
+      }
+      else if ((chptr->mode.mode & MODE_AUDITORIUM) && !IsMember(source_p, chptr))
+      {
+        do_who_on_auditorium_channel(source_p, chptr, chptr->chname, NO);
+      }
+      else if (IsMember(source_p, chptr))
+      {
         do_who_on_channel(source_p, chptr, chptr->chname, YES, server_oper);
+      }
       else if (!SecretChannel(chptr))
+      {
         do_who_on_channel(source_p, chptr, chptr->chname, NO, server_oper);
+      }
     }
 
     sendto_one(source_p, form_str(RPL_ENDOFWHO),
@@ -319,6 +333,43 @@ do_who_on_channel(struct Client *source_p, struct Channel *chptr,
   }
 }
 
+/* do_who_on_auditorium_channel()
+ *
+ * inputs	- pointer to client requesting who
+ *		- pointer to channel to do who on
+ *		- The "real name" of this channel
+ *		- int if source_p is a server oper or not
+ * output	- NONE
+ * side effects - do a who on given channel
+ */
+static void
+do_who_on_auditorium_channel(struct Client *source_p, struct Channel *chptr,
+                  const char *chname, int member)
+{
+  dlink_node *ptr = NULL, *ptr_next = NULL;
+  struct Client *target_p;
+  struct Membership *ms, *source_ms;
+
+  DLINK_FOREACH_SAFE(ptr, ptr_next, chptr->members.head)
+  {
+    ms = ptr->data;
+    target_p = ms->client_p;
+
+    if (member)
+    {
+      source_ms = find_channel_link(source_p, chptr);
+      if (IsOper(source_p) || ((ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)) || (source_ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)))
+      {
+        do_who(source_p, target_p, chname, get_member_status(ms, !!HasCap(source_p, CAP_MULTI_PREFIX)));
+      }
+    }
+    else (IsOper(source_p) || (!IsInvisible(target_p) && (ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))))
+    {
+      do_who(source_p, target_p, chname, get_member_status(ms, !!HasCap(source_p, CAP_MULTI_PREFIX)));
+    }
+  }
+}
+
 /* do_who()
  *
  * inputs	- pointer to client requesting who
@@ -341,19 +392,8 @@ do_who(struct Client *source_p, struct Client *target_p,
     snprintf(status, sizeof(status), "%c%s%s", target_p->away ? 'G' : 'H',
 	       IsOper(target_p) ? "*" : "", op_flags);
 
-  if (ConfigServerHide.hide_servers)
-  {
-    sendto_one(source_p, form_str(RPL_WHOREPLY), me.name, source_p->name,
-	       (chname) ? (chname) : "*",
-               target_p->username, target_p->host,
-	       IsOper(source_p) ? target_p->servptr->name : "*",
-	       target_p->name, status, 0, target_p->info);
-  }
-  else
-  {
-    sendto_one(source_p, form_str(RPL_WHOREPLY), me.name, source_p->name,
-	       (chname) ? (chname) : "*", target_p->username,
-	       target_p->host, target_p->servptr->name, target_p->name,
-	       status, target_p->hopcount, target_p->info);
-  }
+  sendto_one(source_p, form_str(RPL_WHOREPLY), me.name, source_p->name,
+	     (chname) ? (chname) : "*", target_p->username,
+	     target_p->host, target_p->servptr->name, target_p->name,
+	     status, target_p->hopcount, target_p->info);
 }

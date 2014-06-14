@@ -55,6 +55,12 @@ static void chm_nosuch(struct Client *, struct Client *,
 static void chm_simple(struct Client *, struct Client *, struct Channel *,
                        int, int *, char **, int *, int, int, char, void *,
                        const char *);
+static void chm_operonly(struct Client *, struct Client *, struct Channel *,
+                       int, int *, char **, int *, int, int, char, void *,
+                       const char *);
+static void chm_registered(struct Client *, struct Client *, struct Channel *,
+                       int, int *, char **, int *, int, int, char, void *,
+                       const char *);
 static void chm_limit(struct Client *, struct Client *, struct Channel *,
                       int, int *, char **, int *, int, int, char, void *,
                       const char *);
@@ -330,9 +336,9 @@ static const struct mode_letter
   { MODE_INVITEONLY, 'i' },
   { MODE_MODERATED,  'm' },
   { MODE_NOPRIVMSGS, 'n' },
+  { MODE_REGISTERED, 'r' },
   { MODE_SECRET,     's' },
   { MODE_TOPICLIMIT, 't' },
-  { MODE_REGISTERED, 'r' },
   { MODE_OPERONLY,   'x' },
   { MODE_SSLONLY,    'y' },
   { 0, '\0' }
