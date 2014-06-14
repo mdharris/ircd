@@ -50,7 +50,7 @@
 #define CHFL_REGSVC	0x0080 /* registered service (+r) */
 
 /* channel modes ONLY */
-#define MODE_PRIVATE    0x0001
+#define MODE_REGISTERED 0x0001
 #define MODE_SECRET     0x0002
 #define MODE_MODERATED  0x0004
 #define MODE_TOPICLIMIT 0x0008
