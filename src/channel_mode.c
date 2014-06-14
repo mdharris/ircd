@@ -1558,7 +1558,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_nosuch, NULL},                             /* d */
   {chm_except, NULL},                             /* e */
   {chm_nosuch, NULL},                             /* f */
-  {chm_nosuch, NULL},                             /* g */
+  {chm_regsvc, NULL},                             /* g */
 #ifdef HALFOPS
   {chm_hop, NULL},                                /* h */
 #else

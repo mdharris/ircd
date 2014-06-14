@@ -95,7 +95,7 @@ unsigned int user_modes[256] =
   UMODE_DEBUG,        /* D */
   0,                  /* E */
   0,                  /* F */
-  UMODE_SOFTCALLERID, /* G */
+  0,                  /* G */
   0,                  /* H */
   0,                  /* I */
   0,                  /* J */
@@ -110,7 +110,7 @@ unsigned int user_modes[256] =
   0,                  /* S */
   0,                  /* T */
   0,                  /* U */
-  0,                  /* V */
+  UMODE_SOFTCALLERID, /* V */
   0,                  /* W */
   0,                  /* X */
   0,                  /* Y */
@@ -123,7 +123,7 @@ unsigned int user_modes[256] =
   UMODE_DEAF,         /* d */
   0,                  /* e */
   UMODE_FULL,         /* f */
-  UMODE_CALLERID,     /* g */
+  UMODE_REGSVC,       /* g */
   0,                  /* h */
   UMODE_INVISIBLE,    /* i */
   UMODE_REJ,          /* j */
@@ -138,7 +138,7 @@ unsigned int user_modes[256] =
   UMODE_SERVNOTICE,   /* s */
   0,                  /* t */
   UMODE_UNAUTH,       /* u */
-  UMODE_REGSVC,       /* v */
+  UMODE_CALLERID,     /* v */
   UMODE_WALLOP,       /* w */
   UMODE_EXTERNAL,     /* x */
   0,                  /* y */
