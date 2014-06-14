@@ -544,7 +544,6 @@ static const struct mode_letter
   { MODE_SECRET,     's' },
   { MODE_MODERATED,  'm' },
   { MODE_INVITEONLY, 'i' },
-  { MODE_PRIVATE,    'p' },
   { MODE_SSLONLY,    'y' },
   { 0, '\0' }
 };

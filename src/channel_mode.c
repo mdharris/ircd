@@ -330,7 +330,6 @@ static const struct mode_letter
   { MODE_INVITEONLY, 'i' },
   { MODE_MODERATED,  'm' },
   { MODE_NOPRIVMSGS, 'n' },
-  { MODE_PRIVATE,    'p' },
   { MODE_SECRET,     's' },
   { MODE_TOPICLIMIT, 't' },
   { MODE_OPERONLY,   'x' },
@@ -616,8 +615,7 @@ chm_operonly(struct Client *client_p, struct Client *source_p, struct Channel *c
 
   mode_type = (long)d;
 
-  if (((alev < CHACCESS_HALFOP) ||
-      ((mode_type == MODE_PRIVATE) && (alev < CHACCESS_CHANOP))) && !IsAdmin(source_p))
+  if ((alev < CHACCESS_HALFOP) && !IsAdmin(source_p))
   {
     if (!(*errors & SM_ERR_NOOPS))
       sendto_one(source_p, form_str(alev == CHACCESS_NOTONCHAN ?
@@ -1122,8 +1120,7 @@ chm_hop(struct Client *client_p, struct Client *source_p,
    * +p is set (although they can set +p) so it is safe to use this to
    * control whether they can (de)halfop...
    */
-  if (alev <
-      ((chptr->mode.mode & MODE_PRIVATE) ? CHACCESS_CHANOP : CHACCESS_HALFOP))
+  if (alev < CHACCESS_HALFOP)
   {
     if (!(*errors & SM_ERR_NOOPS))
       sendto_one(source_p, form_str(alev == CHACCESS_NOTONCHAN ?
@@ -1521,7 +1518,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_simple, (void *) MODE_MODERATED},          /* m */
   {chm_simple, (void *) MODE_NOPRIVMSGS},         /* n */
   {chm_op, NULL},                                 /* o */
-  {chm_simple, (void *) MODE_PRIVATE},            /* p */
+  {chm_nosuch, NULL},                             /* p */
   {chm_nosuch, NULL},                             /* q */
   {chm_nosuch, NULL},                             /* r */
   {chm_simple, (void *) MODE_SECRET},             /* s */
