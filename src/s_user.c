@@ -126,7 +126,7 @@ unsigned int user_modes[256] =
   UMODE_CALLERID,     /* g */
   0,                  /* h */
   UMODE_INVISIBLE,    /* i */
-  0,                  /* j */
+  UMODE_REJ,          /* j */
   UMODE_SKILL,        /* k */
   UMODE_LOCOPS,       /* l */
   0,                  /* m */
@@ -134,7 +134,7 @@ unsigned int user_modes[256] =
   UMODE_OPER,         /* o */
   0,                  /* p */
   0,                  /* q */
-  UMODE_REJ,          /* r */
+  UMODE_REGISTERED,   /* r */
   UMODE_SERVNOTICE,   /* s */
   0,                  /* t */
   UMODE_UNAUTH,       /* u */

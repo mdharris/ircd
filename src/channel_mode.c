@@ -332,6 +332,7 @@ static const struct mode_letter
   { MODE_NOPRIVMSGS, 'n' },
   { MODE_SECRET,     's' },
   { MODE_TOPICLIMIT, 't' },
+  { MODE_REGISTERED, 'r' },
   { MODE_OPERONLY,   'x' },
   { MODE_SSLONLY,    'y' },
   { 0, '\0' }
@@ -656,6 +657,58 @@ chm_operonly(struct Client *client_p, struct Client *source_p, struct Channel *c
     mode_changes[mode_count].nocaps = 0;
     mode_changes[mode_count].id = NULL;
     mode_changes[mode_count].mems = ALL_MEMBERS;
+    mode_changes[mode_count++].arg = NULL;
+  }
+  else if ((dir == MODE_DEL) && (chptr->mode.mode & mode_type))
+  {
+    chptr->mode.mode &= ~mode_type;
+
+    mode_changes[mode_count].letter = c;
+    mode_changes[mode_count].dir = MODE_DEL;
+    mode_changes[mode_count].caps = 0;
+    mode_changes[mode_count].nocaps = 0;
+    mode_changes[mode_count].mems = ALL_MEMBERS;
+    mode_changes[mode_count].id = NULL;
+    mode_changes[mode_count++].arg = NULL;
+  }
+}
+
+static void
+chm_registered(struct Client *client_p, struct Client *source_p, struct Channel *chptr,
+            int parc, int *parn, char **parv, int *errors, int alev, int dir,
+            char c, void *d, const char *chname)
+{
+  long mode_type;
+
+  mode_type = (long)d;
+
+  if (MyClient(source_p) && !IsRegSvc(source_p))
+  {
+    if (!(*errors & SM_ERR_NOTOPER))
+    {
+      sendto_one(source_p, form_str(ERR_NOPRIVILEGES),
+                 me.name, source_p->name);
+    }
+
+    *errors |= SM_ERR_NOTOPER;
+    return;
+  }
+
+  /* If have already dealt with this simple mode, ignore it */
+  if (simple_modes_mask & mode_type)
+    return;
+
+  simple_modes_mask |= mode_type;
+
+  if ((dir == MODE_ADD) && !(chptr->mode.mode & mode_type))
+  {
+    chptr->mode.mode |= mode_type;
+
+    mode_changes[mode_count].letter = c;
+    mode_changes[mode_count].dir = MODE_ADD;
+    mode_changes[mode_count].caps = 0;
+    mode_changes[mode_count].nocaps = 0;
+    mode_changes[mode_count].id = NULL;
     mode_changes[mode_count].mems = ALL_MEMBERS;
     mode_changes[mode_count++].arg = NULL;
   }
@@ -1520,7 +1573,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_op, NULL},                                 /* o */
   {chm_nosuch, NULL},                             /* p */
   {chm_nosuch, NULL},                             /* q */
-  {chm_nosuch, NULL},                             /* r */
+  {chm_registered, (void *) MODE_REGISTERED},     /* r */
   {chm_simple, (void *) MODE_SECRET},             /* s */
   {chm_simple, (void *) MODE_TOPICLIMIT},         /* t */
   {chm_nosuch, NULL},                             /* u */

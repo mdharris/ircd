@@ -47,7 +47,7 @@
 #define CHFL_BAN        0x0010 /* ban channel flag */
 #define CHFL_EXCEPTION  0x0020 /* exception to ban channel flag */
 #define CHFL_INVEX      0x0040
-#define CHFL_REGSVC	0x0080 /* registered service (+r) */
+#define CHFL_REGSVC	0x0080 /* registered service */
 
 /* channel modes ONLY */
 #define MODE_REGISTERED 0x0001
