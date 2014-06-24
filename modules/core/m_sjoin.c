@@ -447,11 +447,15 @@ ms_sjoin(struct Client *client_p, struct Client *source_p,
     if (!IsMember(target_p, chptr))
     {
       add_user_to_channel(chptr, target_p, fl, !have_many_nicks);
-      if (!(chptr->mode.mode & MODE_AUDITORIUM) || ((fl & CHFL_CHANOP) || (fl & CHFL_HALFOP) || (fl & CHFL_VOICE)))
+      if (!(chptr->mode.mode & MODE_AUDITORIUM) || ((fl & CHFL_CHANOP) || (fl & CHFL_HALFOP) || (fl & CHFL_VOICE)) || IsRegsvc(target_p))
       {
         sendto_channel_local(ALL_MEMBERS, NO, chptr, ":%s!%s@%s JOIN :%s",
                            target_p->name, target_p->username,
                            target_p->host, chptr->chname);
+        if (IsRegsvc(source_p))
+        {
+	  sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, target_p->name);
+        }
       }
       else
       {

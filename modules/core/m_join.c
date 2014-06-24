@@ -252,6 +252,10 @@ m_join(struct Client *client_p, struct Client *source_p,
       sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
                            source_p->name, source_p->username,
                            source_p->host, chptr->chname);
+      if (IsRegsvc(source_p))
+      {
+	sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+      }
     }
     else
     {
@@ -264,11 +268,15 @@ m_join(struct Client *client_p, struct Client *source_p,
                     me.name, (unsigned long)chptr->channelts,
                     chptr->chname, source_p->name);
 
-      if (!(chptr->mode.mode & MODE_AUDITORIUM))
+      if (!(chptr->mode.mode & MODE_AUDITORIUM) || IsRegsvc(source_p))
       {
         sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
                            source_p->name, source_p->username,
                            source_p->host, chptr->chname);
+        if (IsRegsvc(source_p))
+        {
+	  sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+        }
       }
       else
       {
@@ -281,6 +289,12 @@ m_join(struct Client *client_p, struct Client *source_p,
         sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s!%s@%s JOIN :%s",
                            source_p->name, source_p->username,
                            source_p->host, chptr->chname);
+        if (IsRegsvc(source_p))
+        {
+	  sendto_channel_local(CHFL_CHANOP, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+	  sendto_channel_local(CHFL_HALFOP, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+	  sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+        }
       }
     }
 
@@ -447,11 +461,15 @@ ms_join(struct Client *client_p, struct Client *source_p,
   if (!IsMember(source_p, chptr))
   {
     add_user_to_channel(chptr, source_p, 0, 1);
-    if (!(chptr->mode.mode & MODE_AUDITORIUM))
+    if (!(chptr->mode.mode & MODE_AUDITORIUM) || IsRegsvc(source_p))
     {
       sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s!%s@%s JOIN :%s",
                          source_p->name, source_p->username,
                          source_p->host, chptr->chname);
+      if (IsRegsvc(source_p))
+      {
+	sendto_channel_local(ALL_MEMBERS, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+      }
     }
     else
     {
@@ -464,6 +482,12 @@ ms_join(struct Client *client_p, struct Client *source_p,
       sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s!%s@%s JOIN :%s",
                          source_p->name, source_p->username,
                          source_p->host, chptr->chname);
+      if (IsRegsvc(source_p))
+      {
+	sendto_channel_local(CHFL_CHANOP, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+	sendto_channel_local(CHFL_HALFOP, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+	sendto_channel_local(CHFL_VOICE, 0, chptr, ":%s MODE %s +g %s", me.name, chptr->chname, source_p->name);
+      }
     }
   }
 

@@ -1138,6 +1138,7 @@ chm_op(struct Client *client_p, struct Client *source_p,
 
       if (dir == MODE_ADD)
       {
+	if (targ_p == person_p) { continue; }
         /* send JOIN burst to the newly-opped user */
 	sendto_one(targ_p, ":%s!%s@%s JOIN %s", person_p->name, person_p->username, person_p->host, chname);
 	/* send JOIN to other users */
@@ -1145,6 +1146,7 @@ chm_op(struct Client *client_p, struct Client *source_p,
       }
       else
       {
+	if (targ_p == person_p) { continue; }
         /* send PART burst to the newly-deopped user */
 	sendto_one(targ_p, ":%s!%s@%s PART %s", person_p->name, person_p->username, person_p->host, chname);
 	/* send PART to other users */
@@ -1262,6 +1264,7 @@ chm_hop(struct Client *client_p, struct Client *source_p,
 
       if (dir == MODE_ADD)
       {
+	if (targ_p == person_p) { continue; }
         /* send JOIN burst to the newly-opped user */
 	sendto_one(targ_p, ":%s!%s@%s JOIN %s", person_p->name, person_p->username, person_p->host, chname);
 	/* send JOIN to other users */
@@ -1269,6 +1272,7 @@ chm_hop(struct Client *client_p, struct Client *source_p,
       }
       else
       {
+	if (targ_p == person_p) { continue; }
         /* send PART burst to the newly-deopped user */
 	sendto_one(targ_p, ":%s!%s@%s PART %s", person_p->name, person_p->username, person_p->host, chname);
 	/* send PART to other users */
@@ -1361,6 +1365,7 @@ chm_voice(struct Client *client_p, struct Client *source_p,
 
       if (dir == MODE_ADD)
       {
+	if (targ_p == person_p) { continue; }
         /* send JOIN burst to the newly-opped user */
 	sendto_one(targ_p, ":%s!%s@%s JOIN %s", person_p->name, person_p->username, person_p->host, chname);
 	/* send JOIN to other users */
@@ -1368,6 +1373,7 @@ chm_voice(struct Client *client_p, struct Client *source_p,
       }
       else
       {
+	if (targ_p == person_p) { continue; }
         /* send PART burst to the newly-deopped user */
 	sendto_one(targ_p, ":%s!%s@%s PART %s", person_p->name, person_p->username, person_p->host, chname);
 	/* send PART to other users */
@@ -1564,7 +1570,7 @@ static struct ChannelMode ModeTable[255] =
   {chm_nosuch, NULL},                             /* d */
   {chm_except, NULL},                             /* e */
   {chm_nosuch, NULL},                             /* f */
-  {chm_regsvc, NULL},                             /* g */
+  {chm_nosuch, NULL},                             /* g */
 #ifdef HALFOPS
   {chm_hop, NULL},                                /* h */
 #else
