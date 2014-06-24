@@ -809,9 +809,32 @@ set_user_mode(struct Client *client_p, struct Client *source_p,
 
   if (source_p != target_p)
   {
-     sendto_one(source_p, form_str(ERR_USERSDONTMATCH),
-                me.name, source_p->name);
-     return;
+    /* Probably need to deal with passing along the MODE command under (IsRegsvc(source_p) && !MyConnect(target_p)) conditions also - mdh */
+    if (IsRegsvc(source_p) && MyConnect(target_p))
+    {
+      /* send_umode_out(client_p, source_p, ); */
+    }
+    else if (IsOper(source_p) && MyConnect(source_p) && MyConnect(target_p) && (parc < 3))
+    {
+      m = buf;
+      *m++ = '+';
+
+      for (i = 0; i < 128; i++)
+      {
+        if (target_p->umodes & user_modes[i])
+          *m++ = (char)i;
+      }
+      *m = '\0';
+
+      sendto_one(source_p, ":%s NOTICE %s :%s has user modes %s", me.name, source_p->name, target_p->name, buf);
+      return;
+    }
+    else
+    {
+       sendto_one(source_p, form_str(ERR_USERSDONTMATCH),
+                  me.name, source_p->name);
+       return;
+    }
   }
 
   if (parc < 3)
