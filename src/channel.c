@@ -678,12 +678,10 @@ can_join(struct Client *source_p, struct Channel *chptr, const char *key)
   if (is_banned(chptr, source_p))
     return ERR_BANNEDFROMCHAN;
 
-#ifdef HAVE_LIBCRYPTO
   if ((chptr->mode.mode & MODE_SSLONLY) && !source_p->localClient->fd.ssl)
     return ERR_SSLONLYCHAN;
-#endif
 
-  if ((chptr->mode.mode & MODE_OPERONLY) && !IsOper(source_p))
+  if ((chptr->mode.mode & MODE_OPERONLY) && !IsOper(source_p) && !dlinkFind(&source_p->localClient->invited, chptr))
     return ERR_OPERONLYCHAN;
 
   if (chptr->mode.mode & MODE_INVITEONLY)
