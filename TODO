@@ -1,3 +1,9 @@
+General TODO list:
+
+Not done:
+ - Remote REHASH authorized by IsOperRemote() locally, shared block on target server
+
+
 The Auditorium mode mod:
 
 Done:
