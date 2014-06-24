@@ -125,19 +125,16 @@ m_invite(struct Client *client_p, struct Client *source_p,
     return;
   }
 
-  if ((chptr->mode.mode & (MODE_INVITEONLY|MODE_SECRET)))
+  if (MyConnect(source_p) && !has_member_flags(ms, CHFL_CHANOP|CHFL_HALFOP))
   {
-    if (MyConnect(source_p) && !has_member_flags(ms, CHFL_CHANOP|CHFL_HALFOP))
-    {
-      sendto_one(source_p, form_str(ERR_CHANOPRIVSNEEDED),
-                 me.name, source_p->name, chptr->chname);
-      return;
-    }
+    sendto_one(source_p, form_str(ERR_CHANOPRIVSNEEDED),
+               me.name, source_p->name, chptr->chname);
+    return;
   }
 
   if ((chptr->mode.mode & MODE_OPERONLY))
   {
-    if (MyConnect(source_p) && (!has_member_flags(ms, CHFL_CHANOP) || !IsOper(source_p)))
+    if (MyConnect(source_p) && !IsOper(source_p))
     {
       sendto_one(source_p, form_str(ERR_CHANOPRIVSNEEDED),
                  me.name, source_p->name, chptr->chname);
