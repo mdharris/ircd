@@ -881,6 +881,23 @@ set_user_mode(struct Client *client_p, struct Client *source_p,
           }
 
           break;
+        case 'g':
+          if (what == MODE_ADD)
+          {
+            if (!MyConnect(source_p))
+            {
+	      SetRegsvc(source_p);
+            }
+          }
+          else
+          {
+            if (!MyConnect(source_p))
+            {
+	      ClearRegsvc(source_p);
+            }
+          }
+
+          break;
 
         /* we may not get these,
          * but they shouldnt be in default

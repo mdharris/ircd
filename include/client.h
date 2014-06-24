@@ -444,6 +444,8 @@ struct LocalUser
 				  (x)->handler = CLIENT_HANDLER; }
 
 #define IsPrivileged(x)         (IsOper(x) || IsServer(x))
+#define SetRegsvc(x)		((x)->umodes |= UMODE_REGSVC)
+#define ClearRegsvc(x)		((x)->umodes &= ~UMODE_REGSVC)
 
 /* umode flags */
 #define IsInvisible(x)          ((x)->umodes & UMODE_INVISIBLE)
