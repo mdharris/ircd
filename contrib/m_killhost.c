@@ -159,7 +159,7 @@ mo_killhost(struct Client *client_p, struct Client *source_p,
   }
 
   if (count > 0)
-    sendto_wallops_flags(UMODE_OPERWALL, source_p, "OPERWALL - KILLHOST %s %s",
+    sendto_wallops_flags(UMODE_OPERWALL, source_p, "KILLHOST %s: %s",
                          host, reason);
 
   sendto_one(source_p,":%s NOTICE %s :%u clients killed",

@@ -1191,13 +1191,20 @@ oper_up(struct Client *source_p)
   if (!IsOperN(source_p))
     source_p->umodes &= ~UMODE_NCHANGE;
 
-  sendto_realops_flags(UMODE_ALL, L_ALL, "%s (%s@%s) is now an operator",
-                       source_p->name, source_p->username, source_p->host);
   send_umode_out(source_p, source_p, old);
   sendto_one(source_p, form_str(RPL_YOUREOPER), me.name, source_p->name);
   sendto_one(source_p, ":%s NOTICE %s :*** Oper privs are %s",
              me.name, source_p->name, operprivs);
   send_message_file(source_p, &ConfigFileEntry.opermotd);
+
+  /* notify other opers/admins on the network */
+  sendto_server(NULL, NULL, CAP_TS6, NOCAPS,
+                ":%s OPERWALL :%s (%s@%s) has logged in as an %s", me.id, source_p->name, source_p->username, source_p->host, IsOperAdmin(source_p) ? "administrator" : "operator");
+  sendto_server(NULL, NULL, NOCAPS, CAP_TS6,
+                ":%s OPERWALL :%s (%s@%s) has logged in as an %s", source_p->name, source_p->name, source_p->username, source_p->host, IsOperAdmin(source_p) ? "administrator" : "operator");
+  sendto_wallops_flags(UMODE_OPERWALL, source_p, "%s (%s@%s) has logged in as an %s", source_p->name, source_p->username, source_p->host, IsOperAdmin(source_p) ? "administrator" : "operator");
+
+  return;
 }
 
 static char new_uid[TOTALSIDUID + 1];     /* allow for \0 */
