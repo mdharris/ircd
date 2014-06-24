@@ -22,3 +22,4 @@ Done:
 Not done:
  - Update KICK to send to the right people
  - Figure out how to address servers that don't understand +a (maybe a patch to make them set +m ?)
+ - OPME must result in newly-opped oper being sent JOIN burst for the channel
