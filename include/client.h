@@ -276,6 +276,7 @@ struct LocalUser
 #define IsOper(x)		((x)->umodes & UMODE_OPER)
 #define IsAdmin(x)		((x)->umodes & UMODE_ADMIN)
 #define IsRegsvc(x)		((x)->umodes & UMODE_REGSVC)
+#define IsLoggedin(x)		((x)->umodes & UMODE_LOGGEDIN)
 
 #define SetConnecting(x)        {(x)->status = STAT_CONNECTING; \
 				 (x)->handler = UNREGISTERED_HANDLER; }
@@ -370,7 +371,7 @@ struct LocalUser
 #define UMODE_DEAF         0x00020000 /* don't receive channel messages */
 #define UMODE_CCONN_FULL   0x00040000 /* add unused fields to connection monitoring */
 #define UMODE_REGSVC       0x00080000 /* service bot */
-#define UMODE_REGISTERED   0x00100000 /* registered user */
+#define UMODE_LOGGEDIN     0x00100000 /* registered user */
 
 /* user information flags, only settable by remote mode or local oper */
 #define UMODE_OPER         0x40000000 /* Operator */
@@ -379,7 +380,7 @@ struct LocalUser
 #define UMODE_ALL	   UMODE_SERVNOTICE
 
 #define SEND_UMODES  (UMODE_INVISIBLE | UMODE_OPER | UMODE_WALLOP | \
-                      UMODE_ADMIN | UMODE_REGSVC | UMODE_REGISTERED)
+                      UMODE_ADMIN | UMODE_REGSVC | UMODE_LOGGEDIN)
 
 
 /* oper priv flags */

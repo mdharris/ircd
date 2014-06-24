@@ -390,10 +390,20 @@ whois_person(struct Client *source_p, struct Client *target_p)
     sendto_one(source_p, form_str(RPL_TARGUMODEG),
                me.name, source_p->name, target_p->name);
 
-  if (IsOper(target_p))
+  if (IsRegsvc(target_p))
+  {
+    sendto_one(source_p, form_str(RPL_WHOISREGSVC), me.name, source_p->name, target_p->name);
+  }
+  else if (IsOper(target_p))
+  {
     sendto_one(source_p, form_str((IsAdmin(target_p) &&
                !IsOperHiddenAdmin(target_p)) ? RPL_WHOISADMIN :
                RPL_WHOISOPERATOR), me.name, source_p->name, target_p->name);
+  }
+  else if (IsLoggedin(target_p))
+  {
+    sendto_one(source_p, form_str(RPL_WHOISLOGGEDIN), me.name, source_p->name, target_p->name);
+  }
 
   if (IsOper(source_p) && IsCaptured(target_p))
     sendto_one(source_p, form_str(RPL_ISCAPTURED),

@@ -200,18 +200,9 @@ extern const char *get_locale(void);
 #define RPL_UNAWAY           305
 #define RPL_NOWAWAY          306
 #define	RPL_USERIP	     307	/* Undernet extension */
-/*	RPL_WHOISREGNICK     307 	Numeric List: Dalnet */
-/*	RPL_SUSERHOST	     307	austnet */
-/*      RPL_NOTIFYACTION     308         aircd */
-#define RPL_WHOISADMIN	     308	/* Numeric List: Dalnet */
-/*	RPL_RULESSTART	     308	unreal */
-/*      RPL_NICKTRACE        309         aircd */
-/*	RPL_WHOISSADMIN	     309	Numeric List: Dalnet */
-/*	RPL_ENDOFRULES	     309	unreal */
-/*	RPL_WHOISHELPER	     309	austnet */
-/*      RPL_WHOISSVCMSG      310         Dalnet */
-/*	RPL_WHOISHELPOP	     310	unreal */
-/*	RPL_WHOISSERVICE     310	austnet */
+#define RPL_WHOISADMIN	     308	/* IRCASC extension */
+#define RPL_WHOISLOGGEDIN    309	/* IRCASC extension */
+#define RPL_WHOISREGSVC	     310	/* IRCASC extension */
 
 #define RPL_WHOISUSER        311
 #define RPL_WHOISSERVER      312
