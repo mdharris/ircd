@@ -74,12 +74,6 @@ example_module_la_OBJECTS = $(am_example_module_la_OBJECTS)
 example_module_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(example_module_la_LDFLAGS) $(LDFLAGS) -o $@
-ip_cloaking_la_LIBADD =
-am_ip_cloaking_la_OBJECTS = ip_cloaking.lo
-ip_cloaking_la_OBJECTS = $(am_ip_cloaking_la_OBJECTS)
-ip_cloaking_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(ip_cloaking_la_LDFLAGS) $(LDFLAGS) -o $@
 m_capture_la_LIBADD =
 am_m_capture_la_OBJECTS = m_capture.lo
 m_capture_la_OBJECTS = $(am_m_capture_la_OBJECTS)
@@ -165,14 +159,14 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(example_module_la_SOURCES) $(ip_cloaking_la_SOURCES) \
+SOURCES = $(example_module_la_SOURCES) \
 	$(m_capture_la_SOURCES) $(m_change_la_SOURCES) \
 	$(m_classlist_la_SOURCES) $(m_clearchan_la_SOURCES) \
 	$(m_ctrace_la_SOURCES) $(m_flags_la_SOURCES) \
 	$(m_force_la_SOURCES) $(m_jupe_la_SOURCES) \
 	$(m_killhost_la_SOURCES) $(m_ltrace_la_SOURCES) \
 	$(m_ojoin_la_SOURCES) $(m_spoof_la_SOURCES)
-DIST_SOURCES = $(example_module_la_SOURCES) $(ip_cloaking_la_SOURCES) \
+DIST_SOURCES = $(example_module_la_SOURCES) \
 	$(m_capture_la_SOURCES) $(m_change_la_SOURCES) \
 	$(m_classlist_la_SOURCES) $(m_clearchan_la_SOURCES) \
 	$(m_ctrace_la_SOURCES) $(m_flags_la_SOURCES) \
@@ -327,7 +321,6 @@ MODULE_FLAGS = -module -avoid-version
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib/pcre
 modulesdir = $(pkglibdir)/modules/autoload
 modules_LTLIBRARIES = example_module.la     \
-                      ip_cloaking.la        \
                       m_capture.la          \
                       m_change.la           \
                       m_classlist.la        \
@@ -342,7 +335,6 @@ modules_LTLIBRARIES = example_module.la     \
                       m_spoof.la
 
 example_module_la_LDFLAGS = $(MODULE_FLAGS)
-ip_cloaking_la_LDFLAGS = $(MODULE_FLAGS)
 m_capture_la_LDFLAGS = $(MODULE_FLAGS)
 m_change_la_LDFLAGS = $(MODULE_FLAGS)
 m_classlist_la_LDFLAGS = $(MODULE_FLAGS)
@@ -356,7 +348,6 @@ m_ltrace_la_LDFLAGS = $(MODULE_FLAGS)
 m_ojoin_la_LDFLAGS = $(MODULE_FLAGS)
 m_spoof_la_LDFLAGS = $(MODULE_FLAGS)
 example_module_la_SOURCES = example_module.c
-ip_cloaking_la_SOURCES = ip_cloaking.c
 m_capture_la_SOURCES = m_capture.c
 m_change_la_SOURCES = m_change.c
 m_classlist_la_SOURCES = m_classlist.c
@@ -436,8 +427,6 @@ clean-modulesLTLIBRARIES:
 	done
 example_module.la: $(example_module_la_OBJECTS) $(example_module_la_DEPENDENCIES) 
 	$(example_module_la_LINK) -rpath $(modulesdir) $(example_module_la_OBJECTS) $(example_module_la_LIBADD) $(LIBS)
-ip_cloaking.la: $(ip_cloaking_la_OBJECTS) $(ip_cloaking_la_DEPENDENCIES) 
-	$(ip_cloaking_la_LINK) -rpath $(modulesdir) $(ip_cloaking_la_OBJECTS) $(ip_cloaking_la_LIBADD) $(LIBS)
 m_capture.la: $(m_capture_la_OBJECTS) $(m_capture_la_DEPENDENCIES) 
 	$(m_capture_la_LINK) -rpath $(modulesdir) $(m_capture_la_OBJECTS) $(m_capture_la_LIBADD) $(LIBS)
 m_change.la: $(m_change_la_OBJECTS) $(m_change_la_DEPENDENCIES) 
@@ -470,7 +459,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/example_module.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ip_cloaking.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/m_capture.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/m_change.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/m_classlist.Plo@am__quote@
