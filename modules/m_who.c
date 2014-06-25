@@ -358,12 +358,12 @@ do_who_on_auditorium_channel(struct Client *source_p, struct Channel *chptr,
     if (member)
     {
       source_ms = find_channel_link(source_p, chptr);
-      if (IsOper(source_p) || ((ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)) || (source_ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)))
+      if (IsOper(source_p) || ((ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE)) || (source_ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))))
       {
         do_who(source_p, target_p, chname, get_member_status(ms, !!HasCap(source_p, CAP_MULTI_PREFIX)));
       }
     }
-    else (IsOper(source_p) || (!IsInvisible(target_p) && (ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))))
+    else if (IsOper(source_p) || (!IsInvisible(target_p) && (ms->flags & (CHFL_CHANOP | CHFL_HALFOP | CHFL_VOICE))))
     {
       do_who(source_p, target_p, chname, get_member_status(ms, !!HasCap(source_p, CAP_MULTI_PREFIX)));
     }

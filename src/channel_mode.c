@@ -688,7 +688,7 @@ chm_registered(struct Client *client_p, struct Client *source_p, struct Channel 
 
   mode_type = (long)d;
 
-  if (MyClient(source_p) && !IsRegSvc(source_p))
+  if (MyClient(source_p) && !IsRegsvc(source_p))
   {
     if (!(*errors & SM_ERR_NOTOPER))
     {
